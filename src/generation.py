@@ -93,13 +93,22 @@ def create_qa_chain(llm, prompt_template):
 
 
 if __name__ == "__main__":
-    llm = create_llm()
-    prompt_template = create_financial_qa_prompt()
-    chain = create_qa_chain(llm, prompt_template)
-    result = chain.invoke(
-        {
-            "context": "Net Profit Margin (%): 3.97 ... Asset Turnover Ratio (%): 11.04 ...",
-            "query": "What is the Asset Turnover Ratio of the company?",
-        }
-    )
-    print(result)
+    llm = None
+    try:
+        llm = create_llm()
+        prompt_template = create_financial_qa_prompt()
+        chain = create_qa_chain(llm, prompt_template)
+        result = chain.invoke(
+            {
+                "context": "Net Profit Margin (%): 3.97 ... Asset Turnover Ratio (%): 11.04 ...",
+                "query": "What is the Asset Turnover Ratio of the company?",
+            }
+        )
+        print(result)
+    finally:
+        if llm is not None:
+            try:
+                if hasattr(llm, "client") and llm.client is not None:
+                    llm.client.close()
+            except Exception:
+                pass

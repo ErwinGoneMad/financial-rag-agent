@@ -6,10 +6,10 @@ converts it to LangChain Document format, and indexes it into ChromaDB.
 """
 
 from datasets import load_dataset
-from langchain.docstore.document import Document
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import Chroma
+from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 
 def load_finance_dataset():
